@@ -181,8 +181,48 @@
                     <div class="row">
 
                         <!-- Content Column -->
+
+                              <!-- Area Chart -->
+                              <div class="col-xl-8 col-lg-7">
+                                <div class="card shadow mb-4">
+                                    <!-- Card Header - Dropdown -->
+                                    <div
+                                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 class="m-0 font-weight-bold text-primary">Expense Overview</h6>
+                                    </div>
+                                    <!-- Card Body -->
+                                    <div class="card-body">
+                                        <div class="chart-area">
+                                            <canvas id="myExpenseChart" width="400" height="200"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                     
                     </div>
+                        <!-- Content Row -->
+                        <div class="row">
+
+                            <!-- Content Column -->
+    
+                                  <!-- Area Chart -->
+                                  <div class="col-xl-8 col-lg-7">
+                                    <div class="card shadow mb-4">
+                                        <!-- Card Header - Dropdown -->
+                                        <div
+                                            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                            <h6 class="m-0 font-weight-bold text-primary">Water Expense Overview</h6>
+                                        </div>
+                                        <!-- Card Body -->
+                                        <div class="card-body">
+                                            <div class="chart-area">
+                                                <canvas id="myWaterChart" width="400" height="200"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        
+                        </div>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -234,15 +274,27 @@
 
     const data = <%- JSON.stringify(accounts_carwash) %>;
     const expense_data = <%- JSON.stringify(accounts_expense_2) %>;
+    const expense_graph_data = <%- JSON.stringify(accounts_expense_graph) %>;
+    const expense_water_data = <%- JSON.stringify(accounts_water_graph) %>;
     const expense_labels = expense_data.map(item => item._id);
+    //income graph data
     const labels = data.map(item => item._id);
     const values = data.map(item => item.totalAmount);
+    ///expenses graph data
+    const expense_graph_labels = expense_graph_data.map(item => item._id);
+    const expense_graph_values = expense_graph_data.map(item => item.totalAmount);
+    //water graph data
+    const water_graph_labels = expense_water_data.map(item => item._id);
+    const water_graph_values = expense_water_data.map(item => item.totalAmount);
+
     const expense_values = expense_data.map(item => item.amount);
     const formattedValues = values.map(value => value.toLocaleString());
 
 
     const ctx = document.getElementById('myChart').getContext('2d');
     const ctx1 = document.getElementById('myPieChart').getContext('2d');
+    const ctx2 = document.getElementById('myExpenseChart').getContext('2d');
+    const ctx3 = document.getElementById('myWaterChart').getContext('2d');
     const myChart = new Chart(ctx, {
       type: 'bar',
       data: {
@@ -283,6 +335,86 @@
       }
 
 
+
+    });
+    const myChart3 = new Chart(ctx2, {
+      type: 'bar',
+      data: {
+        labels: expense_graph_labels,
+        datasets: [{
+          label: 'Amount in (Ksh)',
+          data: expense_graph_values,
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: function(value) {
+                return value.toLocaleString();
+              }
+            }
+          }
+        },
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                let label = context.dataset.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                label += context.raw.toLocaleString();
+                return label;
+              }
+            }
+          }
+        }
+      }
+
+    });
+    const myChart4 = new Chart(ctx3, {
+      type: 'bar',
+      data: {
+        labels: water_graph_labels,
+        datasets: [{
+          label: 'Amount in (Ksh)',
+          data: water_graph_values,
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: function(value) {
+                return value.toLocaleString();
+              }
+            }
+          }
+        },
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                let label = context.dataset.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                label += context.raw.toLocaleString();
+                return label;
+              }
+            }
+          }
+        }
+      }
 
     });
 

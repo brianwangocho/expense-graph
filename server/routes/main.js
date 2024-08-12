@@ -58,6 +58,20 @@ router.get ('/reports',async(req,res)=>{
         totalAmount: { $sum: { $toInt: "$amount" } },}
      }
       ]);
+      const accounts_expense_graph = await Account.aggregate([
+        { $match: { type: "2" } },
+   {
+      $group:{_id: { $dateToString: { format: "%Y-%m", date: "$date" }},  
+      totalAmount: { $sum: { $toInt: "$amount" } },}
+   }
+    ]);
+    const accounts_water_graph = await Account.aggregate([
+        { $match: { tag: "water" } },
+   {
+      $group:{_id: { $dateToString: { format: "%Y-%m", date: "$date" }},  
+      totalAmount: { $sum: { $toInt: "$amount" } },}
+   }
+    ]);
       const accounts_water = await Account.aggregate([
         { $match: { tag: "water" } },
    {
@@ -109,10 +123,11 @@ router.get ('/reports',async(req,res)=>{
      const result_expense = accounts_expense.reduce((total, singleValue) => {
         return total + singleValue._id;
      }, 0);
-     console.log(result_expense);
-     console.log(result_income);
+    //  console.log(result_expense);
+    //  console.log(result_income);
  
-        res.render('reports',{local,accounts_carwash,result_expense,result_income, accounts_expense_2 })
+        res.render('reports',{local,accounts_carwash,result_expense,result_income, 
+            accounts_expense_2,accounts_expense_graph,accounts_water_graph })
     }catch(error){
         console.log(error)
     }
