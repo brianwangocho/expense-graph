@@ -155,7 +155,49 @@ router.post('/accounts',(req,res)=>{
     console.log(error)
     
    }
-})
+});
+
+router.post('/getincomestatement',async(req,res)=>{
+
+    let to = req.body.to;
+    let from = req.body.from;
+     try{
+
+        const result = await Account.aggregate([
+            {
+              // Match documents between the given dates
+              $match: {
+                date: {
+                  $gte: new Date(from),
+                  $lte: new Date(to)
+                }
+              }
+            },
+            {
+              // Group the documents by a field (e.g., status, category)
+              $group: {
+                _id: '$tag', // Replace 'groupField' with your actual field
+            
+                total: { $sum: { $toInt: "$amount" } }, // Example of a count
+                // Other aggregations can be done here
+              }
+            }
+          ]);
+      
+          console.log(result);
+          const local = {
+            title:"Carwash app",
+            description:"Incomestatement"
+        }
+
+      return res.render('incomestatement',{local,result});
+     }
+     catch(error){
+      console.log(error)
+      
+     }
+  })
+  
 
 router.get('/orders',(req,res)=>{
 

@@ -3,6 +3,12 @@
   Save Record
 </button>
 <a  class="btn btn-primary"  href="/reports">Reports</a>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#IncomestatementModal">
+  View Income Statement
+</button>
+
+
+
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -42,6 +48,41 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button class="btn btn-outline-primary" type="submit" >Save</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- IncomeStatement -->
+<div class="modal fade" id="IncomestatementModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Get Income Statement</h5>
+       
+      </div>
+      <form method="post" action="/getincomestatement" >
+      <div class="modal-body">
+       
+          <div class="form-group">
+            <label for="exampleFormControlInput1">From</label>
+            <input type="date" class="form-control" id="from" required name="from" placeholder="enter amount">
+          </div>
+          <div class="form-group">
+              <label for="exampleFormControlInput2">To</label>
+              <input type="date" class="form-control" id="to" required name="to" placeholder="enter date">
+            </div>
+      
+
+        
+       
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button class="btn btn-outline-primary" type="submit" >View</button>
       </div>
     </form>
     </div>
@@ -102,9 +143,9 @@
 $(document).ready( function () {
     $('#myTable').DataTable({
       dom: 'Bfrtip',
-      buttons: [
-            'copy', 'excel', 'pdf', 'csv'
-        ],
+
+      
+      
       "columnDefs": [ { type: 'date', 'targets': [0] } ],
       "order": [[0, 'desc']]
     });

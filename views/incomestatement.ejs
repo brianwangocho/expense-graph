@@ -1,0 +1,42 @@
+<div class="printdiv">
+    <h3>Income Statement</h3>
+
+    <div>
+        <h2>Income</h2>
+
+       <% result.forEach(item => { %>
+       
+
+       
+        <% if (item._id =='carwash') { %>
+            <p><%= item._id %>  <span> <%= item.total %></span> </p>
+          <% } else { %>
+     
+          <% } %>
+
+    
+        <% }) %>
+    </div>
+
+    <div>
+        <h2>Expense</h2>
+
+       <% result.forEach(item => { %>
+       
+
+       
+        <% if (item._id !='carwash' && item._id !='carwash-manager' ) { %>
+            <p><%= item._id %>  <span> <%= item.total %></span> </p>
+          <% } else { %>
+     
+          <% } %>
+
+    
+        <% }) %>
+    </div>
+
+
+    <div>Total income     <%= result.filter(item => item._id === 'carwash').reduce((total, item) => total + item.total, 0).toFixed(2) %></div>
+    <div>Total Expense     <%= result.filter(item => item._id != 'carwash' && item._id !='carwash-manager' ).reduce((total, item) => total + item.total, 0).toFixed(2) %></div>
+
+</div>
