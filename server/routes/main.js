@@ -68,14 +68,20 @@ router.get ('/reports',async(req,res)=>{
    {
       $group:{_id: { $dateToString: { format: "%Y-%m", date: "$date" }},  
       totalAmount: { $sum: { $toInt: "$amount" } },}
-   }
+   },
+           { 
+    $sort: { _id: 1 }  // Sort by date in ascending order
+  }
     ]);
     const accounts_water_graph = await Account.aggregate([
         { $match: { tag: "water" } },
    {
       $group:{_id: { $dateToString: { format: "%Y-%m", date: "$date" }},  
       totalAmount: { $sum: { $toInt: "$amount" } },}
-   }
+   },
+         { 
+    $sort: { _id: 1 }  // Sort by date in ascending order
+  }
     ]);
       const accounts_water = await Account.aggregate([
         { $match: { tag: "water" } },
