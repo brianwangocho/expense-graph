@@ -59,7 +59,9 @@ router.get ('/reports',async(req,res)=>{
         totalAmount: { $sum: { $toInt: "$amount" } },}
     
      },
-             $sort: { _id: 1 }
+ { 
+    $sort: { _id: 1 }  // Sort by date in ascending order
+  }
       ]);
       const accounts_expense_graph = await Account.aggregate([
         { $match: { type: "2" } },
