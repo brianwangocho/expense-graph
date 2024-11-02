@@ -55,7 +55,8 @@ router.get ('/reports',async(req,res)=>{
           { $match: { tag: "carwash" } },
      {
         $group:{_id: { $dateToString: { format: "%Y-%m", date: "$date" }},  
-        totalAmount: { $sum: { $toInt: "$amount" } },}
+        totalAmount: { $sum: { $toInt: "$amount" } },},
+         $sort: { _id: 1 }
      }
       ]);
       const accounts_expense_graph = await Account.aggregate([
